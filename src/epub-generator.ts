@@ -1,7 +1,12 @@
-import epub from 'epub-gen-memory';
+import { createRequire } from 'module';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 import { logger } from './logger.ts';
+
+// Use createRequire to import CommonJS module properly
+// epub-gen-memory uses CommonJS exports, so we need require() for proper interop
+const require = createRequire(import.meta.url);
+const epub = require('epub-gen-memory').default;
 
 /**
  * EPUB generation options
@@ -21,9 +26,9 @@ export async function generateEpub(options: EpubOptions): Promise<string> {
     logger.startSpinner('Generating EPUB file');
 
     // Create sanitized filename from title
+    // Replace only invalid filesystem characters: / \ : * ? " < > |
     const sanitizedTitle = options.title
-      .replace(/[^a-z0-9]/gi, '_')
-      .toLowerCase();
+      .replace(/[/\\:*?"<>|]/g, '_');
     const filename = `${sanitizedTitle}.epub`;
     const outputPath = join(process.cwd(), 'epub', filename);
 
@@ -41,7 +46,7 @@ export async function generateEpub(options: EpubOptions): Promise<string> {
       [
         {
           title: options.title,
-          data: htmlContent
+          content: htmlContent
         }
       ]
     );

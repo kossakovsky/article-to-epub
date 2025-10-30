@@ -6,9 +6,9 @@ Interactive CLI tool to convert web articles into EPUB format using Playwright f
 
 - 📖 **Interactive CLI** - User-friendly prompts for article details
 - 🌐 **Web Scraping** - Playwright-powered content extraction with visible browser
-- 🤖 **AI Conversion** - OpenAI API to convert HTML to clean Markdown
-- 📚 **EPUB Generation** - Create properly formatted EPUB files
-- 🎨 **Detailed Logging** - Step-by-step colored console output
+- 🤖 **AI-Powered Conversion** - OpenAI API converts HTML to clean, readable Markdown
+- 📚 **EPUB Generation** - Creates properly formatted EPUB files ready for e-readers
+- 🎨 **Rich Logging** - Color-coded console output with progress spinners
 
 ## Requirements
 
@@ -41,14 +41,15 @@ Run the CLI tool:
 npm start
 ```
 
-The tool will guide you through:
-1. Enter article title
-2. Enter author name
-3. Enter article URL
+You'll be prompted to enter:
+1. **Article title** - The title for your EPUB book
+2. **Author name** - The article author
+3. **Article URL** - The web page to convert
 
-The browser will open visibly, load the page, and the tool will:
-- Extract the article content
-- Convert it to clean Markdown using OpenAI
+The tool will then:
+- Launch Chromium browser visibly (so you can see the scraping process)
+- Extract the main article content using smart selectors
+- Convert HTML to clean Markdown via OpenAI
 - Generate an EPUB file in the `epub/` directory
 
 ## Project Structure
@@ -88,30 +89,34 @@ Example:
 
 ## Technical Details
 
-- **No Build Step**: Uses Node.js 24's `--experimental-strip-types` to run TypeScript directly
-- **ESM Modules**: Pure ES modules with `.js` extensions in imports
-- **Visible Browser**: Playwright runs with `headless: false` for visual feedback
-- **AI-Powered**: Uses GPT-5-mini for efficient content conversion
+- **No Build Step**: Uses Node.js 24's `--experimental-strip-types` flag to run TypeScript directly without transpilation
+- **ESM Modules**: Pure ES modules - all imports use `.js` extensions even for `.ts` files
+- **Visible Browser**: Playwright runs with `headless: false` to show the scraping process in real-time
+- **Smart Content Extraction**: Tries multiple semantic selectors (`article`, `main`, etc.) to find article content
+- **AI-Powered**: Uses OpenAI's GPT models for intelligent HTML-to-Markdown conversion
 
 ## Troubleshooting
 
-### "OPENAI_API_KEY not found"
-Make sure you've created a `.env` file with your API key:
+**"OPENAI_API_KEY not found"**
+Make sure you've created a `.env` file in the project root with your API key:
 ```bash
-OPENAI_API_KEY=sk-your-key-here
+OPENAI_API_KEY=sk-your-actual-key-here
 ```
 
-### Browser doesn't open
-Chromium should be installed automatically during `npm install`. If you encounter issues, manually install it:
+**Browser doesn't open**
+Chromium is installed automatically via the `postinstall` script. If it fails, run manually:
 ```bash
 npx playwright install chromium
 ```
 
-### Node version error
-Ensure you're using Node.js 24 or higher:
+**Node version error**
+This project requires Node.js 24+ for TypeScript support. Check your version:
 ```bash
-node --version
+node --version  # Should be v24.0.0 or higher
 ```
+
+**Article content not extracted properly**
+The scraper tries multiple selectors but some websites have unusual layouts. The fallback is to extract the entire `body` content, which may include navigation and other non-article elements.
 
 ## License
 

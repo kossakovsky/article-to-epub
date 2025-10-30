@@ -1,0 +1,38 @@
+{
+  "name": "article-to-epub",
+  "version": "1.0.0",
+  "description": "Interactive CLI tool to convert web articles to EPUB format",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-strip-types src/index.ts",
+    "postinstall": "playwright install chromium"
+  },
+  "keywords": [
+    "epub",
+    "converter",
+    "article",
+    "cli",
+    "playwright",
+    "openai"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "playwright": "^1.56.1",
+    "openai": "^6.7.0",
+    "inquirer": "^12.10.0",
+    "epub-gen-memory": "^1.1.2",
+    "chalk": "^5.6.2",
+    "ora": "^9.0.0",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "@types/inquirer": "^9.0.9",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}
